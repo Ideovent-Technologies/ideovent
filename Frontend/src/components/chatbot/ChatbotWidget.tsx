@@ -15,7 +15,7 @@ const ChatbotWidget: React.FC<Props> = ({ onClose }) => {
   const [loading, setLoading] = useState(false);
 
   // Backend URL from Vite environment variable (production), fallback to localhost (dev)
-  const API_URL = import.meta.env.VITE_API_URL;
+  const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
 
@@ -34,7 +34,7 @@ const ChatbotWidget: React.FC<Props> = ({ onClose }) => {
     setLoading(true);
 
     try {
-      const res = await fetch(`${API_URL}`, {
+      const res = await fetch(`${API_URL}/api/chat`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ message: userMessage.text }),
