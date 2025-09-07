@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useLayoutEffect } from "react"; // Import useLayoutEffect
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 
@@ -12,8 +12,8 @@ const SubNavbar: React.FC<SubNavbarProps> = ({ sections }) => {
   // `navTop` stores the dynamic height of the main navbar
   const [navTop, setNavTop] = useState<number>(72); 
 
-  // 🔹 Effect 1: Dynamically measure the main navbar's height on mount and resize
-  useEffect(() => {
+  // 🔹 FIX: Use useLayoutEffect for immediate, synchronous DOM measurements
+  useLayoutEffect(() => {
     const measure = () => {
       const navbar = document.querySelector<HTMLElement>(".custom-navbar");
       if (navbar) {
@@ -57,24 +57,22 @@ const SubNavbar: React.FC<SubNavbarProps> = ({ sections }) => {
 
   return (
     <nav
-  className="z-30 backdrop-blur-md bg-white/70 border-b border-gray-200/50 shadow-sm w-full"
-  style={{ position: "sticky", top: navTop }}
->
-
+      className="z-30 backdrop-blur-md bg-white/70 border-b border-gray-200/50 shadow-sm w-full"
+      style={{ position: "sticky", top: navTop }}
+    >
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.6, ease: "easeOut" }}
         className="
-  flex flex-wrap sm:flex-nowrap
-  items-center justify-start
-  gap-3 sm:gap-6 md:gap-10
-  px-4 sm:px-6 md:px-8
-  py-2 sm:py-3
-  overflow-x-auto sm:overflow-x-visible no-scrollbar
-  snap-x snap-mandatory
-"
-
+          flex flex-wrap sm:flex-nowrap
+          items-center justify-start
+          gap-3 sm:gap-6 md:gap-10
+          px-4 sm:px-6 md:px-8
+          py-2 sm:py-3
+          overflow-x-auto sm:overflow-x-visible no-scrollbar
+          snap-x snap-mandatory
+        "
       >
         {sections.map((section) => (
           <a
