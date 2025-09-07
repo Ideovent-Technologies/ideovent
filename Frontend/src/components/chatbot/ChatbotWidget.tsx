@@ -14,7 +14,7 @@ const ChatbotWidget: React.FC<Props> = ({ onClose }) => {
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const API_URL = "http://localhost:5000"; // 🔹 Backend URL
+  const API_URL = "http://localhost:5000" || "https://www.ideovent.com/"; // 🔹 Backend URL
 
   // Ref for messages container
   const messagesEndRef = useRef<HTMLDivElement | null>(null);

@@ -55,7 +55,7 @@ router.post("/", async (req: Request, res: Response) => {
 
     // Send chat history to email
     await sendEmail(
-      "your-team@email.com",
+      "mehdialam2002@gmail.com",
       "New Chat History - Ideovent Bot",
       `User: ${message}\nBot: ${botReply}`
     );
