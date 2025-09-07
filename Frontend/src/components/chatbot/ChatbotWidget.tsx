@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
-
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
+console.log("API_URL is:", API_URL);
 interface Props {
   onClose: () => void;
 }
@@ -65,7 +66,8 @@ const ChatbotWidget: React.FC<Props> = ({ onClose }) => {
     if (e.key === "Enter") {
       handleSend();
     }
-  };
+  }
+  ;
 
   return (
     <div className="fixed bottom-4 right-4 w-80 bg-white shadow-2xl rounded-2xl border border-gray-200 flex flex-col z-[9999]">
