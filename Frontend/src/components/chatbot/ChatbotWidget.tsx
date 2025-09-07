@@ -14,8 +14,7 @@ const ChatbotWidget: React.FC<Props> = ({ onClose }) => {
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
 
-  // Backend URL from environment variable or fallback
-  // const API_URL = process.env.REACT_APP_API_URL || "http://localhost:5000";
+  // Backend URL from environment variable or fallback locally
   const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
@@ -41,7 +40,10 @@ const ChatbotWidget: React.FC<Props> = ({ onClose }) => {
         body: JSON.stringify({ message: userMessage.text }),
       });
 
+      if (!res.ok) throw new Error("Network response was not ok");
+
       const data = await res.json();
+
       const botMessage: Message = {
         from: "bot",
         text: data.reply || "⚠️ No response",

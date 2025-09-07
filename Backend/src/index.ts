@@ -10,7 +10,14 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-app.use(cors());
+// CORS configuration - allow frontend origin only
+app.use(
+  cors({
+    origin: "https://www.ideovent.com", // tumhara frontend URL hona chahiye yahaan
+    credentials: true,
+  })
+);
+
 app.use(bodyParser.json());
 
 // Routes
