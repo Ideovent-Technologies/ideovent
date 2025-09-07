@@ -17,7 +17,7 @@ const FloatingCTA = () => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
         // Or use z- for absolute highest priority
-        className="fixed bottom-6 right-6 z-"
+         className="fixed bottom-6 right-6 z-[9999]"
       >
         <button
           onClick={() => setIsOpen(!isOpen)}
