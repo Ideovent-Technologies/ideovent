@@ -1,6 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
-const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
-console.log("API_URL is:", API_URL);
+
 interface Props {
   onClose: () => void;
 }
@@ -15,12 +14,14 @@ const ChatbotWidget: React.FC<Props> = ({ onClose }) => {
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
 
-  // Backend URL from Vite environment variable (production), fallback to localhost (dev)
   const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
+  console.log("API_URL is:", API_URL);
 
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
+  const messagesContainerRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
+    // Scroll to bottom when messages or loading state changes
     if (messagesEndRef.current) {
       messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
     }
@@ -28,7 +29,6 @@ const ChatbotWidget: React.FC<Props> = ({ onClose }) => {
 
   const handleSend = async () => {
     if (!input.trim()) return;
-
     const userMessage: Message = { from: "user", text: input };
     setMessages((prev) => [...prev, userMessage]);
     setInput("");
@@ -40,16 +40,12 @@ const ChatbotWidget: React.FC<Props> = ({ onClose }) => {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ message: userMessage.text }),
       });
-
       if (!res.ok) throw new Error("Network response was not ok");
-
       const data = await res.json();
-
       const botMessage: Message = {
         from: "bot",
         text: data.reply || "⚠️ No response",
       };
-
       setMessages((prev) => [...prev, botMessage]);
     } catch (error) {
       console.error("Chatbot error:", error);
@@ -66,19 +62,27 @@ const ChatbotWidget: React.FC<Props> = ({ onClose }) => {
     if (e.key === "Enter") {
       handleSend();
     }
-  }
-  ;
+  };
 
   return (
-    <div className="fixed bottom-4 right-4 w-80 bg-white shadow-2xl rounded-2xl border border-gray-200 flex flex-col z-[9999]">
+    <div
+      className="fixed bottom-4 right-4 w-80 bg-white shadow-2xl rounded-2xl border border-gray-200 flex flex-col z-[10000]"
+      style={{ maxHeight: "480px" }} // Optional max height for overall widget
+    >
       {/* Header */}
       <div className="bg-blue-600 text-white p-3 rounded-t-2xl flex justify-between items-center">
         <h2 className="text-lg font-semibold">💬 Ideovent Chatbot</h2>
-        <button onClick={onClose} className="text-white font-bold">✕</button>
+        <button onClick={onClose} className="text-white font-bold">
+          ✕
+        </button>
       </div>
 
       {/* Messages */}
-      <div className="flex-1 p-3 overflow-y-auto space-y-2 h-72">
+      <div
+        ref={messagesContainerRef}
+        className="flex-1 p-3 overflow-y-auto space-y-2"
+        style={{ minHeight: "288px", maxHeight: "288px" }} // Fixed height with scroll
+      >
         {messages.map((msg, i) => (
           <div
             key={i}
@@ -91,11 +95,13 @@ const ChatbotWidget: React.FC<Props> = ({ onClose }) => {
             {msg.text}
           </div>
         ))}
+
         {loading && (
           <div className="bg-gray-300 text-gray-700 px-3 py-2 rounded-lg w-fit">
             Typing...
           </div>
         )}
+
         <div ref={messagesEndRef} />
       </div>
 
