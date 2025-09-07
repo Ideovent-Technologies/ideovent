@@ -13,22 +13,48 @@ const ChatbotWidget: React.FC<Props> = ({ onClose }) => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
+  const [userEmail, setUserEmail] = useState<string | null>(null);
+  const [emailInput, setEmailInput] = useState("");
 
   const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
-  console.log("API_URL is:", API_URL);
 
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
-  const messagesContainerRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
-    // Scroll to bottom when messages or loading state changes
     if (messagesEndRef.current) {
       messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
     }
   }, [messages, loading]);
 
+  // Send chat history email on close
+  const sendChatHistoryEmail = async () => {
+    try {
+      const res = await fetch(`${API_URL}/api/chat/emailHistory`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email: userEmail,
+          chatHistory: messages,
+        }),
+      });
+      if (!res.ok) throw new Error("Failed to send email");
+    } catch (error) {
+      console.error("Email sending error:", error);
+    }
+  };
+
+  // Handle close: send email then close widget
+  const handleClose = async () => {
+    if (userEmail && messages.length > 0) {
+      await sendChatHistoryEmail();
+    }
+    onClose();
+  };
+
+  // Handle sending user message to bot
   const handleSend = async () => {
     if (!input.trim()) return;
+
     const userMessage: Message = { from: "user", text: input };
     setMessages((prev) => [...prev, userMessage]);
     setInput("");
@@ -64,24 +90,52 @@ const ChatbotWidget: React.FC<Props> = ({ onClose }) => {
     }
   };
 
+  // Validate email format simple check
+  const isValidEmail = (email: string) =>
+    /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+
+  // Email input form before chat starts
+  if (!userEmail) {
+    return (
+      <div className="fixed bottom-4 right-4 w-80 bg-white shadow-2xl rounded-2xl border border-gray-200 flex flex-col z-[10000] p-4">
+        <h2 className="text-lg font-semibold mb-2">Please enter your email</h2>
+        <input
+          type="email"
+          value={emailInput}
+          onChange={(e) => setEmailInput(e.target.value)}
+          placeholder="Your email"
+          className="border px-3 py-2 rounded w-full mb-4"
+        />
+        <button
+          disabled={!isValidEmail(emailInput)}
+          onClick={() => setUserEmail(emailInput)}
+          className={`w-full py-2 rounded text-white ${
+            isValidEmail(emailInput) ? "bg-blue-600" : "bg-gray-400 cursor-not-allowed"
+          }`}
+        >
+          Start Chat
+        </button>
+      </div>
+    );
+  }
+
   return (
     <div
       className="fixed bottom-4 right-4 w-80 bg-white shadow-2xl rounded-2xl border border-gray-200 flex flex-col z-[10000]"
-      style={{ maxHeight: "480px" }} // Optional max height for overall widget
+      style={{ maxHeight: "480px" }}
     >
       {/* Header */}
       <div className="bg-blue-600 text-white p-3 rounded-t-2xl flex justify-between items-center">
         <h2 className="text-lg font-semibold">💬 Ideovent Chatbot</h2>
-        <button onClick={onClose} className="text-white font-bold">
+        <button onClick={handleClose} className="text-white font-bold">
           ✕
         </button>
       </div>
 
       {/* Messages */}
       <div
-        ref={messagesContainerRef}
         className="flex-1 p-3 overflow-y-auto space-y-2"
-        style={{ minHeight: "288px", maxHeight: "288px" }} // Fixed height with scroll
+        style={{ minHeight: "288px", maxHeight: "288px" }}
       >
         {messages.map((msg, i) => (
           <div

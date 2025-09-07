@@ -1,6 +1,7 @@
 import express, { Request, Response } from "express";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { sendEmail } from "../services/email";
+
 const router = express.Router();
 
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY as string);
@@ -39,6 +40,8 @@ Chatbot: "Yes! We build iOS and Android apps, fully customized. For example, we 
 7. **Never give vague answers.** Always tie answers to Ideovent Technologies’ services, packages, portfolio, or contact info.
 `;
 
+
+// Chatbot message processing endpoint
 router.post("/", async (req: Request, res: Response) => {
   const { message } = req.body;
   // Combine user message and company prompt
@@ -53,12 +56,12 @@ router.post("/", async (req: Request, res: Response) => {
       : result.response.text;
     console.log("🤖 Gemini Reply:", botReply);
 
-    // Send chat history to email
-    await sendEmail(
-      "mehdialam2002@gmail.com",
-      "New Chat History - Ideovent Bot",
-      `User: ${message}\nBot: ${botReply}`
-    );
+    // IMPORTANT: Remove sending email here for each message to avoid multiple emails
+    // await sendEmail(
+    //   "mehdialam2002@gmail.com",
+    //   "New Chat History - Ideovent Bot",
+    //   `User: ${message}\nBot: ${botReply}`
+    // );
 
     return res.json({ reply: botReply });
   } catch (error: any) {
@@ -68,5 +71,35 @@ router.post("/", async (req: Request, res: Response) => {
     });
   }
 });
+
+
+// New route to send entire chat history email when chat session ends
+router.post("/emailHistory", async (req: Request, res: Response) => {
+  const { email, chatHistory } = req.body;
+  if (!email || !chatHistory || !Array.isArray(chatHistory)) {
+    return res.status(400).json({ error: "Invalid request body" });
+  }
+  try {
+    // Format chat history as text
+    const historyText = chatHistory
+      .map(
+        (msg: { from: string; text: string }) =>
+          `${msg.from.toUpperCase()}: ${msg.text}`
+      )
+      .join("\n");
+
+    await sendEmail(
+      email,
+      "Your Ideovent Chatbot Conversation History",
+      `Thank you for chatting with Ideovent Technologies.\n\nHere is your chat history:\n\n${historyText}`
+    );
+
+    res.json({ success: true });
+  } catch (error) {
+    console.error("Failed to send chat history email:", error);
+    res.status(500).json({ error: "Failed to send email" });
+  }
+});
+
 
 export default router;
