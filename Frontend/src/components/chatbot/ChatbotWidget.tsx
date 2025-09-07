@@ -14,12 +14,12 @@ const ChatbotWidget: React.FC<Props> = ({ onClose }) => {
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const API_URL = "http://localhost:5000" || "https://www.ideovent.com/"; // 🔹 Backend URL
+  // Backend URL from environment variable or fallback
+  // const API_URL = process.env.REACT_APP_API_URL || "http://localhost:5000";
+  const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
-  // Ref for messages container
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
 
-  // Scroll to bottom when messages change
   useEffect(() => {
     if (messagesEndRef.current) {
       messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
@@ -66,8 +66,7 @@ const ChatbotWidget: React.FC<Props> = ({ onClose }) => {
   };
 
   return (
-    // z- ensures the chatbot stays above all other elements, including navbars
-    <div className="fixed bottom-4 right-4 w-80 bg-white shadow-2xl rounded-2xl border border-gray-200 flex flex-col z-">
+    <div className="fixed bottom-4 right-4 w-80 bg-white shadow-2xl rounded-2xl border border-gray-200 flex flex-col z-[9999]">
       {/* Header */}
       <div className="bg-blue-600 text-white p-3 rounded-t-2xl flex justify-between items-center">
         <h2 className="text-lg font-semibold">💬 Ideovent Chatbot</h2>
@@ -79,7 +78,6 @@ const ChatbotWidget: React.FC<Props> = ({ onClose }) => {
         {messages.map((msg, i) => (
           <div
             key={i}
-        
             className={`p-2 rounded-lg max-w-[75%] ${
               msg.from === "user"
                 ? "bg-blue-500 text-white self-end ml-auto"
@@ -94,7 +92,6 @@ const ChatbotWidget: React.FC<Props> = ({ onClose }) => {
             Typing...
           </div>
         )}
-        {/* Dummy ref for auto-scroll */}
         <div ref={messagesEndRef} />
       </div>
 
