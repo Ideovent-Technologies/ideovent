@@ -57,16 +57,17 @@ const Navbar = () => {
             right: 0;
             z-index: 50;
             transition: all 0.3s ease-in-out;
-            padding: 12px 30px;
+            padding: 10px 30px;
             display: flex;
             align-items: center;
             justify-content: space-between;
             background: transparent;
+            height: 70px; /* fixed height for spacing */
           }
 
           .custom-navbar.scrolled {
             backdrop-filter: blur(10px);
-            background: rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.85);
           }
 
           .custom-container {
@@ -78,16 +79,15 @@ const Navbar = () => {
             justify-content: space-between;
           }
 
-          .custom-logo {
-            height: 55px;
-            display: flex;
-            align-items: center;
+          .custom-logo img {
+            height: 65px;
+            object-fit: contain;
           }
 
-          .custom-logo img {
-            height: 90px;
-            max-height: 100px;
-            object-fit: contain;
+          @media (max-width: 768px) {
+            .custom-logo img {
+              height: 50px;
+            }
           }
 
           /* Desktop Navigation */
@@ -111,23 +111,20 @@ const Navbar = () => {
             color: #007bff;
           }
 
-          /* Desktop Dropdown Container */
+          /* Dropdown (desktop) */
           .custom-dropdown {
             position: relative;
           }
           
-          /* Desktop Dropdown Menu */
           .custom-dropdown-menu {
             position: absolute;
             top: 100%;
             left: 0;
-            background: rgba(255, 255, 255, 0.7);
-            backdrop-filter: blur(12px) saturate(150%);
-            -webkit-backdrop-filter: blur(12px) saturate(150%);
-            border-radius: 16px;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(12px);
+            border-radius: 12px;
             box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
             padding: 0.75rem 1.25rem;
-            border: 1px solid rgba(255, 255, 255, 0.2);
             display: flex;
             flex-direction: column;
             min-width: 220px;
@@ -136,17 +133,14 @@ const Navbar = () => {
             visibility: hidden;
             transform: translateY(10px) scale(0.95);
             transition: all 0.35s cubic-bezier(0.25, 1, 0.5, 1);
-            transform-origin: top center;
           }
 
-          /* Show on Hover */
           .custom-dropdown:hover .custom-dropdown-menu {
             opacity: 1;
             visibility: visible;
             transform: translateY(0) scale(1);
           }
 
-          /* Dropdown Links */
           .custom-dropdown-menu a {
             text-decoration: none;
             padding: 10px 16px;
@@ -198,7 +192,7 @@ const Navbar = () => {
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding-top: 100px; /* Space for the logo/header */
+            padding-top: 80px; /* based on navbar height */
             transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1);
             transform: translateY(-100%);
             z-index: 40;
@@ -225,29 +219,6 @@ const Navbar = () => {
             color: #007bff;
           }
 
-          .mobile-menu-item button {
-            background: none;
-            border: none;
-            color: white;
-            font-size: 20px;
-            font-weight: 500;
-            cursor: pointer;
-            width: 100%;
-            text-align: center;
-            padding: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-          }
-
-          .mobile-menu-item button .chevron {
-            transition: transform 0.3s ease;
-          }
-
-          .mobile-menu-item button.active .chevron {
-            transform: rotate(180deg);
-          }
-
           .mobile-services-dropdown {
             width: 100%;
             display: flex;
@@ -262,10 +233,10 @@ const Navbar = () => {
           }
           
           .mobile-services-dropdown.open {
-            max-height: 500px; /* Adjust this value as needed */
+            max-height: 500px;
             opacity: 1;
           }
-          
+
           .mobile-services-dropdown a {
             font-size: 16px;
             color: white;
@@ -295,7 +266,6 @@ const Navbar = () => {
             background: #0056b3;
           }
 
-
           /* Responsive */
           @media (max-width: 768px) {
             .custom-nav-links {
@@ -304,9 +274,6 @@ const Navbar = () => {
             .custom-menu-button {
               display: block;
               z-index: 60;
-            }
-            .custom-logo img {
-              height: 80px;
             }
           }
         `}
@@ -335,7 +302,7 @@ const Navbar = () => {
               </Link>
             ))}
 
-            {/* Services with Submenu */}
+            {/* Services Dropdown */}
             <div className="custom-dropdown">
               <Link
                 to="/services"
@@ -378,7 +345,8 @@ const Navbar = () => {
               {item.name}
             </Link>
           ))}
-          {/* Mobile services dropdown */}
+
+          {/* Mobile Services Dropdown */}
           <div className="mobile-menu-item">
             <button
               onClick={() => setMobileServicesOpen(!mobileServicesOpen)}
@@ -403,6 +371,7 @@ const Navbar = () => {
               ))}
             </div>
           </div>
+
           <Link
             to="/contact"
             className="mobile-get-started"
