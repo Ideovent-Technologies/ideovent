@@ -14,7 +14,7 @@ const ChatbotWidget: React.FC<Props> = ({ onClose }) => {
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
 
-  // Backend URL from environment variable or fallback locally
+  // Backend URL from Vite environment variable (production), fallback to localhost (dev)
   const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
