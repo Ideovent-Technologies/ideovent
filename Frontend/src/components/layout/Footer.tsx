@@ -204,7 +204,7 @@ const Footer = () => {
 
         {/* Trust Badges */}
         {/* Trust Badges / Social Proof */}
-        <div className="mt-12 flex flex-wrap justify-center items-center gap-6 opacity-80">
+        {/* <div className="mt-12 flex flex-wrap justify-center items-center gap-6 opacity-80">
           <a
             href="https://www.google.com/search?q=Ideovent+Technologies+reviews"
             target="_blank"
@@ -234,7 +234,7 @@ const Footer = () => {
               className="h-10"
             />
           </a>
-        </div>
+        </div> */}
 
         {/* Copyright */}
         <div className="border-t border-secondary-foreground/10 mt-12 pt-8 text-center text-secondary-foreground/70">
