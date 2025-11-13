@@ -148,36 +148,37 @@ const Footer = () => {
           </div>
 
           {/* Contact Info */}
-          <div>
-            <h3 className="text-lg font-medium mb-4">Contact Info</h3>
-            <ul className="space-y-3">
-              <li className="flex items-start">
-                <MapPin size={20} className="mr-3 mt-1 text-primary" />
+          {/* Contact Info */}
+        <div>
+          <h3 className="text-lg font-medium mb-4">Contact Info</h3>
+          <ul className="space-y-3">
+            <li className="flex items-start">
+              <MapPin size={20} className="mr-3 mt-1 text-primary" />
+              <span className="text-secondary-foreground/80">
+                Salempur, Deoria, Uttar Pradesh, 274509
+              </span>
+            </li>
+            {/* CORRECTED CODE BLOCK */}
+            <li className="flex items-start">
+              <Phone size={20} className="mr-3 text-primary" />
+              <div className="flex flex-col">
                 <span className="text-secondary-foreground/80">
-                  Salempur, Deoria, Uttar Pradesh, 274509
+                  +91 9410707967
                 </span>
-              </li>
-              <li className="flex items-start flex-col">
-                <div className="flex items-center">
-                  <Phone size={20} className="mr-3 text-primary" />
-                  <span className="text-secondary-foreground/80">
-                    +91 9410707967
-                  </span>
-                </div>
-                <div className="flex items-center ml-[28px]">
-                  <span className="text-secondary-foreground/80">
-                    &nbsp; +91 8541831946
-                  </span>
-                </div>
-              </li>
-              <li className="flex items-center">
-                <Mail size={20} className="mr-3 text-primary" />
-                <span className="text-secondary-foreground/80">
-                  contact@ideovent.com
+                <span className="text-secondary-foreground/80 mt-1">
+                  +91 8541831946
                 </span>
-              </li>
-            </ul>
-          </div>
+              </div>
+            </li>
+            {/* END CORRECTED CODE BLOCK */}
+            <li className="flex items-center">
+              <Mail size={20} className="mr-3 text-primary" />
+              <span className="text-secondary-foreground/80">
+                contact@ideovent.com
+              </span>
+            </li>
+          </ul>
+        </div>
         </div>
 
         {/* Newsletter */}
@@ -203,7 +204,7 @@ const Footer = () => {
 
         {/* Trust Badges */}
         {/* Trust Badges / Social Proof */}
-        <div className="mt-12 flex flex-wrap justify-center items-center gap-6 opacity-80">
+        {/* <div className="mt-12 flex flex-wrap justify-center items-center gap-6 opacity-80">
           <a
             href="https://www.google.com/search?q=Ideovent+Technologies+reviews"
             target="_blank"
@@ -233,7 +234,7 @@ const Footer = () => {
               className="h-10"
             />
           </a>
-        </div>
+        </div> */}
 
         {/* Copyright */}
         <div className="border-t border-secondary-foreground/10 mt-12 pt-8 text-center text-secondary-foreground/70">

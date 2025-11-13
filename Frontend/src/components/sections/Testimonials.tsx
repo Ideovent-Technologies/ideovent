@@ -23,7 +23,7 @@ const Testimonials = () => {
     },
     {
       text: "The SEO strategy developed by Ideovent has dramatically improved our online visibility. We're now ranking on the first page for our key terms, and the increased traffic has led to substantial growth in leads and sales. Highly recommended!",
-      name: "Ragini Sinha",
+      name: "Ragini Mahto",
       position: "Marketing Director, GrowthBiz",
       image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ4A8PhcI7V3miXTmY26npWgI2nFvNxDRs_bg&s"
     },
