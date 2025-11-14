@@ -34,5 +34,94 @@
     "grade": "86.2",
     "location": "Delhi, India",
     "profileImage": "https://i.postimg.cc/mr3h5CrT/manas.jpg"
+  },
+   {
+    "id": "INT2025A76",
+    "name": "Ishika Saha",
+    "designation": "Software Developer Intern",
+    "duration": "Jun 2025 - September 2025",
+    "issuedBy": "Ideovent Technologies",
+    "project": "Worked on modern UI/UX designs and implemented responsive web components using React and NodeJS",
+    "certificateImage": "",
+    "grade": "81.2",
+    "location": "Remote",
+    "profileImage": ""
+  }, {
+    "id": "INT2025A77",
+    "name": "Honey",
+    "designation": "Software Developer Intern",
+    "duration": "Jun 2025 - September 2025",
+    "issuedBy": "Ideovent Technologies",
+    "project": "Worked on modern UI/UX designs and implemented responsive web components using React and NodeJS",
+    "certificateImage": "",
+    "grade": "86.2",
+    "location": "Remote",
+    "profileImage": ""
+  }, {
+    "id": "INT2025A78",
+    "name": "Prince Desai",
+    "designation": "Software Developer Intern",
+    "duration": "Jun 2025 - September 2025",
+    "issuedBy": "Ideovent Technologies",
+    "project": "Worked on modern UI/UX designs and implemented responsive web components using React and NodeJS",
+    "certificateImage": "",
+    "grade": "81.2",
+    "location": "Remote",
+    "profileImage": ""
+  }, {
+    "id": "INT2025A79",
+    "name": "Sachin Prajapati",
+    "designation": "Software Developer Intern",
+    "duration": "Jun 2025 - September 2025",
+    "issuedBy": "Ideovent Technologies",
+    "project": "Worked on modern UI/UX designs and implemented responsive web components using React and NodeJS",
+    "certificateImage": "",
+    "grade": "82.2",
+    "location": "Remote",
+    "profileImage": ""
+  }, {
+    "id": "INT2025A80",
+    "name": "Sumit Sonar",
+    "designation": "Software Developer Intern",
+    "duration": "Jun 2025 - September 2025",
+    "issuedBy": "Ideovent Technologies",
+    "project": "Worked on modern UI/UX designs and implemented responsive web components using React and NodeJS",
+    "certificateImage": "",
+    "grade": "82.2",
+    "location": "Remote",
+    "profileImage": ""
+  }, {
+    "id": "INT2025A81",
+    "name": "Gauri Jakhmola",
+    "designation": "Software Developer Intern",
+    "duration": "Jun 2025 - September 2025",
+    "issuedBy": "Ideovent Technologies",
+    "project": "Worked on modern UI/UX designs and implemented responsive web components using React and NodeJS",
+    "certificateImage": "",
+    "grade": "88.2",
+    "location": "Remote",
+    "profileImage": ""
+  }, {
+    "id": "INT2025A82",
+    "name": "Avinash Sharma",
+    "designation": "Software Developer Intern",
+    "duration": "Jun 2025 - September 2025",
+    "issuedBy": "Ideovent Technologies",
+    "project": "Worked on modern UI/UX designs and implemented responsive web components using React and NodeJS",
+    "certificateImage": "",
+    "grade": "83.2",
+    "location": "Remote",
+    "profileImage": ""
+  }, {
+    "id": "INT2025A83",
+    "name": "Hardik Garg",
+    "designation": "Software Developer Intern",
+    "duration": "Jun 2025 - September 2025",
+    "issuedBy": "Ideovent Technologies",
+    "project": "Worked on modern UI/UX designs and implemented responsive web components using React and NodeJS",
+    "certificateImage": "",
+    "grade": "84.2",
+    "location": "Remote",
+    "profileImage": ""
   }
 ]
