@@ -14,8 +14,9 @@ app.use(express.json());
 
 // Gemini setup
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
-const model = genAI.getGenerativeModel({ model: "gemini-1.5-pro" });
-
+const model = genAI.getGenerativeModel({
+  model: "gemini-pro",
+});
 // Nodemailer setup
 const transporter = nodemailer.createTransport({
   service: "gmail",

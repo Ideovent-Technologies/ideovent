@@ -1,105 +1,131 @@
 import express, { Request, Response } from "express";
-import { GoogleGenerativeAI } from "@google/generative-ai";
+import OpenAI from "openai";
 import { sendEmail } from "../services/email";
 
 const router = express.Router();
+const ideoventPrompt = ` ROLE: Official Digital Growth Consultant
+ ENTITY: Ideovent Technologies
+ STYLE: Ultra-Concise, Professional, Research-Backed.
 
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY as string);
-const model = genAI.getGenerativeModel({ model: "models/gemini-1.5-flash" });
+You are the digital face of Ideovent Technologies. Your mission is to convert visitors into clients by providing short, impactful, and highly accurate information.
 
-// ⬇️ Official Ideovent Prompt (as per your requirement)
-const ideoventPrompt = `
-You are the official AI chatbot for Ideovent Technologies, a professional web and mobile app development agency. Always respond as a representative of Ideovent Technologies. Your goal is to help users with all queries related to the company in a complete, detailed, and professional manner.
-Rules to follow:
-1. Always represent the company: Speak as Ideovent Technologies. Never refer to yourself as an AI or chatbot.
-2. Complete Information:
-   - If the user asks about pricing, immediately provide all relevant pricing/packages.
-   - If the user asks about location, provide the office location and contact details.
-   - If the user asks about services, provide full details of services including web development (React, Node.js, WordPress), mobile apps (iOS/Android), UI/UX, branding, digital marketing, freelancing, and portfolio examples.
-   - If the user asks about projects/portfolio, list relevant past projects (Sold Out logo, CreditCode.in-style fintech app, TaskMate app, HighQClasses school platform, etc.)
-   - Always answer fully in a single response if possible, without making the user ask follow-ups.
-3. Conversational Flow:
-   - Greet the user politely.
-   - Ask questions to clarify needs if necessary.
-   - Offer direct solutions, pricing, location, contact, and next steps in the same message.
-   - Keep tone friendly, professional, confident, and approachable.
-4. Example Responses:
-User: "What are your pricing options?"
-Chatbot: "Hello! At Ideovent Technologies, our pricing depends on the type of project:
-- Website Development: ₹25,000 – ₹2,00,000 depending on features and complexity.
-- Mobile Apps (iOS/Android): ₹1,50,000 – ₹5,00,000.
-- Branding & Logo Design: ₹5,000 – ₹50,000.
-- TaskMate App / School Management Platform: Custom pricing based on features.
-Would you like me to suggest the best package for your project?"
-User: "Where are you located?"
-Chatbot: "We are based in Uttar Pradesh, India. You can visit our office at Salempur, Deoria or contact us at +91-8797304787 / connect@ideovent.com. We also work with clients worldwide remotely!"
-User: "Do you do mobile apps?"
-Chatbot: "Yes! We build iOS and Android apps, fully customized. For example, we recently built a fintech app like CreditCode.in with admin panel and full user features. We can also integrate analytics, notifications, and payment gateways."
-5. Always guide the user to next steps: Provide quote, contact, or scheduling options if they show interest.
-6. Language & Tone: Clear, friendly, professional, confident, and detailed. Keep it easy to understand for non-technical users.
-7. Never give vague answers. Always tie answers to Ideovent Technologies’ services, packages, portfolio, or contact info.
+---
+
+ 🛡️ OPERATIONAL RULES
+1. Short & Sweet: Keep every response under 2-3 bullet points. No long paragraphs.
+2. Identity: Act as the "Official Ideovent Assistant." Never mention AI.
+3. Data Accuracy: Use only the verified information below.
+4. The "Next Step" Rule: Always end with a short CTA (e.g., "Ready for a free quote?").
+5. Language: Respond in the user's language (English/Hindi/Hinglish).
+
+---
+
+ 💼 CORE SERVICES (Concise)
+- Web Dev: Custom React/Next.js, E-commerce (Shopify/Woo), & Portfolio sites.
+- App Dev: High-performance Android/iOS apps (React Native/Flutter).
+- Software: Enterprise CRM, ERP, and Custom Web Applications.
+- Marketing: SEO, Performance Ads (Meta/Google), & Branding/Logo Design.
+- Support: 24/7 technical support, Domain, & Hosting.
+
+---
+
+ 💰 PRICING ESTIMATES
+*Start with "Starting from..." and emphasize customization:*
+- 🌐 Web: ₹25k – ₹2L+
+- 📱 Apps: ₹1.5L – ₹5L+
+- 🎨 Branding: ₹5k – ₹50k
+- 🚀 SaaS/ERP: Custom Quote based on requirements.
+
+---
+
+ 📍 CONTACT & TRUST
+- Location: Salempur, Deoria, UP, 274509, India.
+- Global Reach: 120+ projects delivered across 8+ countries.
+- WhatsApp/Call: +91-8797304787 | +91-9410707967
+- Email: connect@ideovent.com
+- USP: "100% Satisfaction or Nothing."
+
+---
+
+ 🚀 PORTFOLIO HIGHLIGHTS
+- HighQ Classes: Scalable EdTech/School Platform.
+- HealthTrack: Wellness & Medical Tracking App.
+- FinTech Dashboard: Advanced Financial Data Portal.
+- Sold Out: Premium Branding & E-commerce.
+
+---
+
+ 🎯 RESPONSE GUIDE (Short Examples)
+
+Q: "What do you do?"
+- We build high-speed Websites, Mobile Apps, and Custom Software.
+- We also handle Digital Marketing & Branding to grow your business.
+- CTA: Which service can help you scale today?
+
+Q: "How much for an app?"
+- Mobile apps typically start from ₹1.5L, depending on features.
+- We provide a full Admin Panel and Play Store/App Store deployment.
+- CTA: Would you like a free detailed estimate for your idea?
+
+Q: "Where are you located?"
+- Our HQ is in Salempur, Deoria (UP), India, but we serve clients globally.
+- CTA: Can we schedule a quick discovery call?
+
+---
+
+ ⭐ REVIEW TRIGGER
+After helping: 
+"Was my response helpful? We’d love your quick feedback!" 
+*If positive:* "Great! Can we use this as a testimonial on our site?"
+
 `;
 
+const openai = new OpenAI({
+  apiKey: process.env.OPENROUTER_API_KEY,
+  baseURL: "https://openrouter.ai/api/v1",
+  defaultHeaders: {
+    "HTTP-Referer": "http://localhost:5000",
+    "X-Title": "Ideovent Chatbot",
+  },
+});
 
-// Chatbot message processing endpoint
 router.post("/", async (req: Request, res: Response) => {
   const { message } = req.body;
-  // Combine user message and company prompt
-  const fullPrompt = `${ideoventPrompt}\nUser: ${message}\nChatbot:`;
+
   console.log("📩 User:", message);
 
+  const fullPrompt = `${ideoventPrompt}\nUser: ${message}`;
+
   try {
-    // Send the full context prompt to Gemini model
-    const result = await model.generateContent(fullPrompt);
-    const botReply = typeof result.response.text === 'function'
-      ? result.response.text()
-      : result.response.text;
-    console.log("🤖 Gemini Reply:", botReply);
-
-    // IMPORTANT: Remove sending email here for each message to avoid multiple emails
-    // await sendEmail(
-    //   "mehdialam2002@gmail.com",
-    //   "New Chat History - Ideovent Bot",
-    //   `User: ${message}\nBot: ${botReply}`
-    // );
-
-    return res.json({ reply: botReply });
-  } catch (error: any) {
-    console.error("❌ Gemini API Error:", error.message || error);
-    return res.json({
-      reply: "⚠️ Something went wrong with Gemini API",
+    const completion = await openai.chat.completions.create({
+      model: "meta-llama/llama-3-8b-instruct", // FREE + WORKING
+      messages: [
+        { role: "system", content: ideoventPrompt },
+        { role: "user", content: message },
+      ],
     });
-  }
-});
 
+    const reply = completion.choices[0].message.content;
 
-// New route to send entire chat history email when chat session ends
-router.post("/emailHistory", async (req: Request, res: Response) => {
-  const { email, chatHistory } = req.body;
-  if (!email || !chatHistory || !Array.isArray(chatHistory)) {
-    return res.status(400).json({ error: "Invalid request body" });
-  }
-  try {
-    // Format chat history as text
-    const historyText = chatHistory
-      .map(
-        (msg: { from: string; text: string }) =>
-          `${msg.from.toUpperCase()}: ${msg.text}`
-      )
-      .join("\n");
+    // 🔥 Review detect (auto email)
+    if (
+      message.toLowerCase().includes("good") ||
+      message.toLowerCase().includes("great") ||
+      message.toLowerCase().includes("awesome")
+    ) {
+      await sendEmail(
+        process.env.EMAIL_TO!,
+        "🔥 New Positive Review",
+        message
+      );
+    }
 
-    await sendEmail(
-      email,
-      "Your Ideovent Chatbot Conversation History",
-      `Thank you for chatting with Ideovent Technologies.\n\nHere is your chat history:\n\n${historyText}`
-    );
+    res.json({ reply });
 
-    res.json({ success: true });
   } catch (error) {
-    console.error("Failed to send chat history email:", error);
-    res.status(500).json({ error: "Failed to send email" });
+    console.error("❌ ERROR:", error);
+    res.status(500).json({ reply: "⚠️ Server error" });
   }
 });
-
 
 export default router;

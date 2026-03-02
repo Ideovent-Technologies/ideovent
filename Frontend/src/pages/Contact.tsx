@@ -112,8 +112,10 @@ const Contact = () => {
                 </div>
                 <h3 className="text-xl font-semibold mb-2">Email Us</h3>
                 <p className="text-muted-foreground mb-4">We'll respond within 24 hours</p>
-                <a href="mailto:info@ideovent.com" className="text-primary font-medium hover:underline">
-                  contact@ideovent.com
+                <a href="mailto:ideoventtechnologies@gmail.com" className="text-primary font-medium hover:underline">
+                  {/* contact@ideovent.com
+                   */}
+                   ideoventtechnologies@gmail.com
                 </a>
               </div>
               

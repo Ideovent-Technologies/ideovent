@@ -116,7 +116,7 @@ const ContactForm = () => {
                   </div>
                   <div>
                     <div className="font-medium">Email</div>
-                    <a href="mailto:info@ideovent.com" className="text-primary hover:underline">contact@ideovent.com</a>
+                    <a href="mailto:ideoventtechnologies@gmail.com" className="text-primary hover:underline">ideoventtechnologies@gmail.com</a>
                   </div>
                 </li>
                 <li className="flex items-start">
