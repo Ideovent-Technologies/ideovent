@@ -16,7 +16,7 @@ const ChatbotWidget: React.FC<Props> = ({ onClose }) => {
   const [userEmail, setUserEmail] = useState<string | null>(null);
   const [emailInput, setEmailInput] = useState("");
 
-  const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
+  const API_URL = import.meta.env.VITE_API_URL || "https://ideovent-j1dt.onrender.com/";
 
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
 
