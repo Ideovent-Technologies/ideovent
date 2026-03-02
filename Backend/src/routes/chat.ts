@@ -84,7 +84,7 @@ const openai = new OpenAI({
   apiKey: process.env.OPENROUTER_API_KEY,
   baseURL: "https://openrouter.ai/api/v1",
   defaultHeaders: {
-    "HTTP-Referer": "https://ideovent-j1dt.onrender.com/",
+    "HTTP-Referer": "https://ideovent-j1dt.onrender.com",
     "X-Title": "Ideovent Chatbot",
   },
 });
